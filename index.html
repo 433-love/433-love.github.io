@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>433的个人博客</title>
+
+    <style>
+/* --- 可修改参数：全局风格 (暖白 + 高饱和度) --- */
+:root {
+    /* (新) 页面背景色 (棕白色/暖米白) */
+    --color-background: #fdfaf6; 
+
+    /* (新) 主要文字颜色 (深灰色) */
+    --color-text: #333333;      
+    
+    /* (新) 副标题/日期的颜色 (中灰色) */
+    --color-text-secondary: #666666;
+
+    /* (新) 卡片背景色 (纯白，在米白上会有浮起感) */
+    --color-card-background: #ffffff;
+
+    /* (新) 导航栏背景 (半透明暖白) */
+    --color-nav-background: rgba(253, 250, 246, 0.7);
+
+    /* (新) 边框线 (浅黑色) */
+    --color-border-light: rgba(0, 0, 0, 0.1);
+
+    /* (新) 链接/高亮颜色 (高饱和度粉色) */
+    --color-accent: #F948B2;    
+
+    /* 字体 (不变) */
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* 内容区域的最大宽度 (不变) */
+    --content-max-width: 980px;
+
+    /* 卡片的圆角 (不变) */
+    --border-radius: 18px;
+}
+/* --- 全局风格结束 --- */
+
+
+        /* --- 基础样式 (已适配新颜色) --- */
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+        /* --- 基础样式结束 --- */
+
+/* --- (动效 1) 动态渐变动画 (已更新为高饱和度) --- */
+@keyframes keynote-gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* --- 动画结束 --- */
+
+
+        /* --- 导航栏样式 (已适配新颜色) --- */
+        .navbar {
+            background-color: var(--color-nav-background); 
+            backdrop-filter: blur(10px); 
+            border-bottom: 1px solid var(--color-border-light);
+            padding: 15px 0;
+            position: fixed; 
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-text); /* (新) 深色文字 */
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--color-text); /* (新) 深色文字 */
+        }
+        /* --- 导航栏样式结束 --- */
+
+
+        /* --- 页面主内容区 --- */
+        main {
+            padding-top: 100px;
+        }
+
+        /* --- 英雄区域 (大标题) (已升级动效 1) --- */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin: 0 0 10px;
+            line-height: 1.2;
+            
+            /* --- (动效 1) 高饱和度渐变标题 (粉色/橙色) --- */
+            background: linear-gradient(90deg, #F948B2, #FF7643, #D90368, #F948B2);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: keynote-gradient-animation 8s ease infinite;
+            /* --- 渐变结束 --- */
+        }
+
+        .hero p {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--color-text-secondary); /* (新) 中灰色 */
+            margin: 0;
+        }
+        /* --- 英雄区域结束 --- */
+
+
+        /* --- 博客列表样式 (已升级动效 2) --- */
+        
+        /* (动效 2) 为卡片列表开启 3D 视角 */
+        .blog-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; 
+            padding-bottom: 60px;
+            perspective: 1000px; /* 开启 3D 舞台 */
+        }
+        
+        .blog-card {
+            background-color: var(--color-card-background); /* (新) 纯白卡片 */
+            border-radius: var(--border-radius);
+            /* (新) 适配浅色背景的阴影 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden; 
+            cursor: pointer;
+            
+            /* (动效 2) 3D 效果的准备 */
+            transform-style: preserve-3d;
+            /* (动效 2 & 3) 平滑的过渡效果 */
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, opacity 0.6s ease-out, transform 0.6s ease-out;
+
+            /* (动效 3) JS 动画效果的初始状态 */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* (动效 2) 鼠标悬停时的 3D 倾斜效果 */
+        .blog-card:hover {
+            transform: rotateY(var(--rotateY, 0deg)) rotateX(var(--rotateX, 0deg)) scale(1.03);
+            /* (新) 适配浅色背景的悬停阴影 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover; 
+            display: block;
+        }
+
+        .card-content {
+            padding: 25px;
+            /* (动效 2) 让卡片内容也参与 3D 变换 */
+            transform: translateZ(20px); 
+        }
+
+        .card-date {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary); /* (新) 中灰色 */
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0 0 10px;
+            color: var(--color-text); /* (新) 深色文字 */
+        }
+
+        .card-excerpt {
+            font-size: 1rem;
+            color: var(--color-text-secondary); /* (新) 中灰色 */
+            line-height: 1.5;
+        }
+        /* --- 博客列表结束 --- */
+
+        /* --- 页脚 (已适配新颜色) --- */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--color-border-light);
+            color: var(--color-text-secondary); /* (新) 中灰色 */
+            font-size: 0.9rem;
+        }
+        
+        /* --- JS 动画触发类 --- */
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            
+            <a href="#" class="nav-logo">433</a>
+
+            <ul class="nav-links">
+                <li><a href="#">博客 (Blog)</a></li>
+                <li><a href="#">关于 (About)</a></li>
+                <li><a href="#">项目 (Projects)</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <section class="hero fade-in">
+                
+                <h1>433的Blog</h1>
+                
+                <p>主动，一定会有故事</p>
+                
+            </section>
+
+            <section class="blog-list">
+
+                <article class="blog-card fade-in">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="代码图片">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-date">2025年10月20日</div>
+                        <div class="card-title">我的第一篇博客</div>
+                        <p class="card-excerpt">欢迎来到我的新博客。这是我使用 HTML 和 CSS 搭建的第一个网站，记录我的学习和生活。</p>
+                    </div>
+                </article>
+
+                <article class="blog-card fade-in">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto.format&fit=crop&w=1470&q=80" alt="技术图片">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-date">2025年10月19日</div>
+                        <div class="card-title">关于 C++ 学习的笔记</div>
+                        <p class="card-excerpt">C++ 真是太棒了（也太难了）。这里记录一下我最近遇到的几个关于指针和结构体的问题。</p>
+                    </div>
+                </article>
+                
+                <article class="blog-card fade-in">
+                    <div class="card-content">
+                        <div class="card-date">2025年10月18日</div>
+                        <div class="card-title">RoboMaster 参赛随想</div>
+                        <p class="card-excerpt">最近加入了 RoboMaster 团队，感觉热血沸腾。目标是进入算法组！冲击国赛！</p>
+                    </div>
+                </article>
+
+                <article class="blog-card fade-in">
+                    <div class="card-image">
+                        <img src="./images/retro-game.jpg" alt="复古游戏图片">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-date">2025年10月17日</div>
+                        <div class="card-title">一些随意的生活记录</div>
+                        <p class="card-excerpt">今天天气很好，代码也写得很顺手。</p>
+                    </div>
+                </article>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 433. 保留所有权利。</p>
+            </div>
+    </footer>
+
+
+    <script>
+        
+        // --- 动效 3：交错淡入 ---
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 为英雄区和卡片区分别设置交错延迟
+            const heroElements = document.querySelectorAll('.hero.fade-in');
+            heroElements.forEach((el, index) => {
+                el.style.transitionDelay = `${index * 100}ms`;
+            });
+
+            const cardElements = document.querySelectorAll('.blog-card.fade-in');
+            cardElements.forEach((el, index) => {
+                // 卡片的延迟从 100ms 开始，在 hero 之后
+                el.style.transitionDelay = `${(index * 100) + 100}ms`;
+            });
+
+            // Intersection Observer 保持不变，用于触发动画
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.1 
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+
+            // --- 动效 2：3D 倾斜效果 ---
+            const cards = document.querySelectorAll('.blog-card');
+
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; // 鼠标在卡片内的 X 坐标
+                    const y = e.clientY - rect.top;  // 鼠标在卡片内的 Y 坐标
+                    const width = rect.width;
+                    const height = rect.height;
+
+                    // 计算旋转角度 (中间为0度，边缘最大10度)
+                    const rotateX = (y / height - 0.5) * -20; // 乘以 -20 (即 -10 到 10 度)
+                    const rotateY = (x / width - 0.5) * 20;   // 乘以 20  (即 -10 到 10 度)
+
+                    // 把角度应用到 CSS 变量
+                    card.style.setProperty('--rotateX', `${rotateX}deg`);
+                    card.style.setProperty('--rotateY', `${rotateY}deg`);
+                });
+
+                // 鼠标离开时重置
+                card.addEventListener('mouseleave', () => {
+                    card.style.setProperty('--rotateX', '0deg');
+                    card.style.setProperty('--rotateY', '0deg');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
