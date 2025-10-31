@@ -1,0 +1,166 @@
+/* --- 1. 全局和字体设置 ---
+ * (来自 CSS 总结)
+ * 我们重置 margin 和 padding，并设置全局字体和背景色。
+*/
+body {
+    font-size: medium;
+    font-family: Arial, "Microsoft YaHei", sans-serif; 
+    background-color: blanchedalmond;
+    margin: 0;
+    padding: 0;
+    color: #d25050; /* 默认文字颜色 */
+}
+
+
+.container {
+    max-width: 1000px; 
+    margin: 0 auto;    /*实现水平居中 */
+    padding: 0 15px;   /* 页面两边留 20px 的内边距，防止内容贴边 */
+}
+
+/*3.导航*/
+.header {
+    background-color: rgb(215, 200, 116); 
+    padding: 15px 0;         
+    border-bottom: 1px solid #eee; 
+}
+
+.nav-container {
+    display: flex;            /* 开启 Flexbox 布局! */
+}
+
+
+.logo {
+    display: flex;
+    align-items: center; /* 垂直居中 logo 图片和文字 */
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo img {
+    height: 30px; 
+    margin-right: 10px; 
+}
+
+
+.main-nav a, .nav-actions a ,.next-nav a{
+    color: #333;           /* 文字颜色 */
+    margin: 0 12px;        /* 每个链接之间的左右外边距 */
+    font-size: 20px;
+    text-decoration: none;
+}
+
+
+
+.nav-actions a:last-child {
+    margin-right: 0; /* 最后一个按钮不需要右边距 */
+}
+
+.btn {
+    padding: 8px 16px;         /* (盒模型) 按钮的内边距 */
+    border-radius: 5px;        /* (来自 CSS 总结) 5px 的圆角 */
+    text-decoration: none;     /* 去掉下划线 */
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;     /* 让 <a> 标签也能设置宽高和 padding */
+    transition: all 0.3s ease; /* (来自 CSS 总结) 鼠标悬停时 0.3s 的过渡动画 */
+}
+
+.btn:hover {
+    opacity: 0.8; /* 鼠标悬停时变淡 */
+}
+
+/* 主按钮 (蓝色) */
+.btn-primary {
+    background-color: #0d6efd; /* 蓝色背景 */
+    color: white;             /* 白色文字 */
+}
+
+/* 次要按钮 (蓝色, 全宽) */
+.btn-secondary {
+    background-color: #0d6efd;
+    color: white;
+    width: 100%;               /* 宽度占满父容器 */
+    text-align: center;        /* 文字居中 */
+    box-sizing: border-box;    /* (来自 CSS 总结) 关键！让 padding 不会撑大 100% 的宽度 */
+}
+
+/* 亮色按钮 (白色) */
+.btn-light {
+    background-color: white;
+    color: #333; /* 黑色文字 */
+}
+
+/* --- 5. 页面主布局 .page-layout ---
+ * (来自 CSS 总结的 "CSS Grid 网格布局")
+ * 这是这个页面的核心！我们用 Grid 把它分为两列。
+*/
+.page-layout {
+    display: grid;                 /* 开启 Grid 布局! */
+    grid-template-columns: 2fr 1fr;  /* 关键！定义两列，左列宽度是右列的2倍 (2fr 1fr) */
+    gap: 20px;                       /* (来自 CSS 总结) 列与列之间的间距为 20px */
+    padding-top: 30px;               /* 距离顶部导航栏 30px */
+}
+
+/* --- 6. 左侧内容区 --- */
+.main-content {
+    display: flex;
+    flex-direction: column; /* 让 Hero卡片 和 Tags卡片 垂直堆叠 */
+    gap: 20px;              /* 两个卡片之间的间距 */
+}
+
+.hero-card {
+    /* * (来自 CSS 总结的 "背景图片")
+     * 你需要把图片下载下来，命名为 hero-bg.jpg 放在项目文件夹里
+     */
+    background-image: url('hero-bg.jpg'); 
+    background-size: cover;    /* 自动裁切和缩放，铺满整个 "盒子" */
+    background-position: center; /* 图像居中显示 */
+    
+    border-radius: 10px; /* 圆角 */
+    padding: 60px 40px;  /* 内边距 */
+    color: white;        /* 内部文字设为白色 */
+    min-height: 300px;   /* 至少 300px 高 */
+
+    /* * (来自 CSS 总结的 "定位")
+     * 我们用 Flexbox 来垂直居中文字，
+     * 并用 伪元素::before 来添加一个半透明的黑色遮罩，让白字更清晰。
+     */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    position: relative;     /* 设为相对定位，为伪元素做准备 */
+    overflow: hidden;       /* 隐藏溢出的部分 (比如圆角外的遮罩) */
+    z-index: 1;             /* 提高层级 */
+}
+
+/* (来自 CSS 总结的 "伪元素") */
+.hero-card::before {
+    content: ''; /* 伪元素必须有 content */
+    position: absolute; /* 绝对定位，相对于 .hero-card */
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4); /* 40% 透明度的黑色遮罩 */
+    z-index: -1; /* (来自 CSS 总结) 把遮罩层级降低，放到文字下面 */
+    border-radius: 10px;
+}
+
+.hero-card h1 {
+    font-size: 36px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.hero-card p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+
+/* --- 7. 右侧边栏 .sidebar --- */
+.sidebar {
+    display: flex;
+    flex-direction: column; 
+
+}
+
+
